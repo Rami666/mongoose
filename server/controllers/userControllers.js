@@ -11,11 +11,16 @@ try {
 
 
     await User.create(req.body)
+
+
     res.send('Hello from register')
+
+
+    res.send({success: true})
 } catch (error) {
     console.log("register error", error.message);
 
-    res.send(error.message)
+    res.send({success: false, error: error.message})
 }
 
 
