@@ -17,16 +17,18 @@ module.exports.register = async (req, res) => {
 };
 
 module.exports.login = async (req, res) => {
-  console.log("Hello from login", req.body);
+  try {
+    console.log("Hello from login", req.body);
 
-  const user = await User.find({
-    email: req.body.email,
-    password: req.body.password,
-    
-  })
+    // User.findOne(some object) will return the first user that matches the object
+    const user = await User.findOne(req.body).select("-password -__v");
 
-  console.log(user);
-    
+    console.log(user);
 
-  res.send("Hello from login");
+    res.send({ success: true, user });
+  } catch (error) {
+    console.log("Login error", error.message);
+
+    res.send({ success: false, error: error.message });
+  }
 };

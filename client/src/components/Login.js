@@ -1,8 +1,14 @@
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import {AppContext} from "./Context";
 
 
 function Login() {
+
+
+const navigate = useNavigate();
+
   const [data, setData] = useState({
     email: "",
     password: "",
@@ -12,6 +18,12 @@ function Login() {
   const handleLogin = async () => {
     const response = await axios.post("/users/login", data);
     console.log(response);
+
+    if (response.data.success) {
+        dispatchState({});
+        navigate("/dashboard");
+        
+    } 
   }
 
   return (
