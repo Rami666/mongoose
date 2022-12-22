@@ -16,8 +16,17 @@ module.exports.register = async (req, res) => {
   }
 };
 
-module.exports.login = (req, res) => {
-  console.log("Hello from login");
+module.exports.login = async (req, res) => {
+  console.log("Hello from login", req.body);
+
+  const user = await User.find({
+    email: req.body.email,
+    password: req.body.password,
+    
+  })
+
+  console.log(user);
+    
 
   res.send("Hello from login");
 };
