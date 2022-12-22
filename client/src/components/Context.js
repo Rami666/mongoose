@@ -1,12 +1,31 @@
-import { createContext } from 'react';
+import { createContext, useReducer } from "react";
 
-export const AppContext = createContext();
+export const AppContext = createContext()
 
-export const ContextProvider = ({childern}) => {
+export default function ContextProvider({children}) {
 
-    return (
-        <AppContext.Provider value={{state, dispatchState}}>
-            {childern}
-        </AppContext.Provider>
-    )
+    const reducer = (state, action) => {
+
+        switch(action.type) {
+
+            case 'login':
+
+            return {
+                ...state,
+                user: {...action.payload}
+            }
+
+            default:
+                
+            return state
+        }
+    }
+
+    const [state, dispatchState] = useReducer(reducer, {
+        user: {}
+    })
+
+    return <AppContext.Provider value={{state, dispatchState}}>
+     {children}
+    </AppContext.Provider>
 }

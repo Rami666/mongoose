@@ -2,12 +2,14 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import {AppContext} from "./Context";
+import {useContext} from "react";
 
 
 function Login() {
 
 
 const navigate = useNavigate();
+const {state, dispatchState} = useContext(AppContext);
 
   const [data, setData] = useState({
     email: "",
@@ -20,11 +22,21 @@ const navigate = useNavigate();
     console.log(response);
 
     if (response.data.success) {
-        dispatchState({});
+        dispatchState({
+            type: "login",
+            payload: response.data.user
+        });
         navigate("/dashboard");
+
         
-    } 
+    } else {
+        if(response.data.errorId === 1) alert("Invalid email or password");
+    }
+
   }
+
+
+
 
   return (
     <div className="flex justify-center items-center w-full h-[100vh] bg-slate-50 flex-col gap-[20px]">
